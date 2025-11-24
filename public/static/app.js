@@ -106,3 +106,28 @@ async function resetProgress() {
         alert("Terjadi kesalahan saat mereset progress.");
     }
 }
+
+function toggleDarkMode() {
+    const html = document.documentElement;
+    const isDark = html.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+
+async function startExam() {
+    if (!window.currentSession) {
+        alert("Progress belum dimuat.");
+        return;
+    }
+
+    const session = window.currentSession;
+    try {
+        const questions = await loadQuestions(session);
+
+        // Redirect ke halaman ujian / tampilkan soal
+        // Nanti bisa kamu ganti dengan halaman lain
+        window.location.href = `/session.html?session_id=${session}`;
+    } catch (err) {
+        console.error("Gagal memulai ujian:", err);
+        alert("Gagal memulai ujian.");
+    }
+}
