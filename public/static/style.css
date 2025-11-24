@@ -1714,3 +1714,35 @@ body:not(.exam-active):not(.result-active) .sidebar-menu {
   top: 16px;
   right: 24px;
 }
+
+/* --- Fix Hero Container for Laptop Layout --- */
+.hero-container {
+    margin-top: 1.5rem !important;  /* Kurangi jarak atas */
+    padding: 2rem !important;        /* Spasi dalam */
+    max-width: 1100px !important;    /* Biar nggak terlalu melebar */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
+}
+
+/* --- Fix Hero Container for Laptop Layout --- */
+.hero-container, .hero, .main-card, .card-hero {
+    margin-top: 1.5rem !important;  /* Kurangi jarak atas */
+    padding: 2rem !important;        /* Spasi dalam */
+    max-width: 1100px !important;    /* Biar nggak terlalu melebar */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
+}
+
+/* Responsive tweak */
+@media (max-width: 768px) {
+    .hero-container, .hero, .main-card, .card-hero {
+        padding: 1.25rem !important;
+        margin-top: 1rem !important;
+    }
+}
