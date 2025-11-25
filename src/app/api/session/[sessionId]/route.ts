@@ -3,9 +3,10 @@ import rawQuestions from '@/data/questions.json';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
-  const sessionId = parseInt(params.sessionId);
+  const { sessionId: sessionIdStr } = await params;
+  const sessionId = parseInt(sessionIdStr);
 
   // Validate session ID
   if (isNaN(sessionId) || sessionId < 1 || sessionId > 20) {

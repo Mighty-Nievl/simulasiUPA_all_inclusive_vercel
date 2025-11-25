@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const progressCookie = cookieStore.get('upa_progress');
 
   if (!progressCookie) {
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const progressCookie = cookieStore.get('upa_progress');
     
     let progress = {

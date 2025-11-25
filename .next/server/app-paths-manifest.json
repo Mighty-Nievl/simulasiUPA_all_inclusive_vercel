@@ -1,6 +1,1 @@
-{
-  "/api/session/[sessionId]/route": "app/api/session/[sessionId]/route.js",
-  "/api/submit/route": "app/api/submit/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js"
-}
+{}
