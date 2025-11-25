@@ -39,6 +39,13 @@ export default function Home() {
     setProgress(getProgress());
   };
 
+  const handleNextSession = () => {
+    if (selectedSession && selectedSession < 20) {
+      setSelectedSession(selectedSession + 1);
+      setProgress(getProgress());
+    }
+  };
+
   const handleResetProgress = () => {
     resetProgress();
     setProgress({ completedSessions: [], currentSession: 1 });
@@ -47,7 +54,7 @@ export default function Home() {
   };
 
   if (selectedSession) {
-    return <ExamSimulation sessionId={selectedSession} onExit={handleExitSession} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />;
+    return <ExamSimulation key={selectedSession} sessionId={selectedSession} onExit={handleExitSession} onNextSession={handleNextSession} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />;
   }
 
   const completedCount = progress.completedSessions.length;
