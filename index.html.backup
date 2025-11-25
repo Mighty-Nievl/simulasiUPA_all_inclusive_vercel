@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulasi UPA PERADI - Ujian Profesi Advokat</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
     <div class="container">
         <!-- Header -->
@@ -21,7 +17,7 @@
                     <p class="subtitle">Ujian Profesi Advokat - Sistem Pembelajaran Gamifikasi</p>
                 </div>
             </div>
-
+            
             <!-- Sidebar Menu -->
             <div class="sidebar-menu">
                 <button onclick="backToHome()" class="btn-sidebar">
@@ -40,7 +36,7 @@
                 <div class="progress-fill" id="progressFill"></div>
                 <span class="progress-text" id="progressText">Sesi 1 dari 20</span>
             </div>
-
+            
             <!-- Footer (shown in sidebar during exam) -->
             <footer class="footer footer-sidebar">
                 <p>© 2025 Simulasi UPA PERADI</p>
@@ -58,8 +54,7 @@
                         <div class="welcome-hero-section">
                             <div class="welcome-hero-text">
                                 <h2>Siap Hadapi UPA?</h2>
-                                <p>Sistem simulasi ini dirancang untuk membantu Anda mempersiapkan Ujian Profesi Advokat
-                                    (UPA) PERADI dengan materi terupdate.</p>
+                                <p>Sistem simulasi ini dirancang untuk membantu Anda mempersiapkan Ujian Profesi Advokat (UPA) PERADI dengan materi terupdate.</p>
                                 <div class="welcome-buttons">
                                     <button class="btn btn-primary" onclick="startExam()">Mulai Ujian</button>
                                 </div>
@@ -73,8 +68,7 @@
                                 <ul>
                                     <li>Total 200 soal dibagi menjadi 20 sesi</li>
                                     <li>Setiap sesi berisi 10 soal pilihan ganda</li>
-                                    <li>Anda harus menjawab <strong>100% benar</strong> untuk melanjutkan ke sesi
-                                        berikutnya</li>
+                                    <li>Anda harus menjawab <strong>100% benar</strong> untuk melanjutkan ke sesi berikutnya</li>
                                     <li>Jika ada jawaban salah, Anda harus mengulang sesi yang sama</li>
                                     <li>Materi mencakup 8 bidang hukum sesuai kisi-kisi PERADI</li>
                                 </ul>
@@ -127,5 +121,4 @@
 
     <script src="/static/app.js"></script>
 </body>
-
 </html>
