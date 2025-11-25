@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>\n  <meta name="viewport" content="width=device-width,initial-scale=1"/>\n  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi UPA PERADI - Ujian Profesi Advokat</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-logo">🎓</div>
+                <h1 class="title">Simulasi UPA PERADI</h1>
+                <p class="subtitle">Ujian Profesi Advokat - Sistem Pembelajaran Gamifikasi</p>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="sidebar-menu">
+                <button onclick="backToHome()" class="btn-sidebar">
+                    🏠 Halaman Awal
+                </button>
+                <div class="dark-mode-toggle">
+                    <span>🌙 Dark Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div class="welcome-screen">
+                <div class="welcome-card">
+                    <div class="welcome-card-left">
+                        <div>
+                            <h2>Selamat Datang!</h2>
+                            <p>Sistem simulasi ini dirancang untuk membantu Anda mempersiapkan Ujian Profesi Advokat (UPA) PERADI.</p>
+                        </div>
+                        <div class="welcome-buttons">
+                            <button class="btn btn-primary" onclick="startExam()">Mulai Ujian</button>
+                            <button class="btn btn-secondary" onclick="resetProgress()">Reset Progress</button>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <h3>📋 Aturan Ujian:</h3>
+                        <ul>
+                            <li>Total 200 soal dibagi menjadi 20 sesi</li>
+                            <li>Setiap sesi berisi 10 soal pilihan ganda</li>
+                            <li>Anda harus menjawab <strong>100% benar</strong> untuk melanjutkan ke sesi berikutnya</li>
+                            <li>Jika ada jawaban salah, Anda harus mengulang sesi yang sama</li>
+                            <li>Materi mencakup 8 bidang hukum sesuai kisi-kisi PERADI</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Simulasi UPA PERADI</p>
+            <p>Made with ❤️ by Rezal Helwin Bramantara, S.H.</p>
+        </footer>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlert" class="custom-alert-overlay hidden">
+        <div class="custom-alert-box">
+            <h3 id="customAlertTitle">Pemberitahuan</h3>
+            <p id="customAlertMessage"></p>
+            <button onclick="closeCustomAlert()" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

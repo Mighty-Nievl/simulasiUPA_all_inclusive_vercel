@@ -1,0 +1,93 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { getProgress, isSessionUnlocked, isSessionCompleted, resetProgress } from '@/lib/progress';
+import ExamSimulation from '@/components/ExamSimulation';
+
+export default function Home() {
+  const [selectedSession, setSelectedSession] = useState<number | null>(null);
+  const [progress, setProgress] = useState<{ completedSessions: number[], currentSession: number }>({ completedSessions: [], currentSession: 1 });
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Load progress on mount
+    setProgress(getProgress());
+    
+    // Check dark mode preference
+    const isDark = localStorage.getItem('darkMode') === 'true' || 
+                   document.documentElement.classList.contains('dark');
+    setDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', String(newDarkMode));
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
+
+  const handleSessionClick = (sessionId: number) => {
+    if (isSessionUnlocked(sessionId)) {
+      setSelectedSession(sessionId);
+    }
+  };
+
+  const handleExitSession = () => {
+    setSelectedSession(null);
+    setProgress(getProgress());
+  };
+
+  const handleResetProgress = () => {
+    resetProgress();
+    setProgress({ completedSessions: [], currentSession: 1 });
+    setShowResetConfirm(false);
+    fetch('/api/reset', { method: 'POST' });
+  };
+
+  if (selectedSession) {
+    return <ExamSimulation sessionId={selectedSession} onExit={handleExitSession} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />;
+      </footer>
+
+      {/* Reset Confirmation Modal */}
+      {showResetConfirm && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-8 shadow-2xl transform animate-scaleIn border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
+                <svg className="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Reset Progress?</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+              Semua progress Anda akan dihapus dan Anda akan kembali ke Sesi 1. Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="flex-1 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-100"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleResetProgress}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-105 active:scale-100"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

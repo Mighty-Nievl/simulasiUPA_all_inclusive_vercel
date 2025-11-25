@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Simulasi UPA - Session</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="icon" href="/favicon.ico">
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+  <div class="max-w-4xl mx-auto p-6">
+    
+    <h1 class="text-2xl font-bold mb-4">Session Ujian</h1>
+
+    <div id="session-info" class="bg-white p-4 rounded shadow mb-4">
+      Loading session...
+    </div>
+
+    <div id="questions" class="bg-white p-4 rounded shadow"></div>
+
+    <div class="mt-4 flex gap-3">
+      <button id="submitBtn"
+        class="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+        Submit Answers
+      </button>
+
+      <button id="backBtn"
+        class="px-4 py-2 bg-gray-300 text-black rounded shadow hover:bg-gray-400">
+        Back
+      </button>
+    </div>
+
+  </div>
+
+<script>
+// ===============================
+// Utility
+// ===============================
+
+function getQuery(name){
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+async function apiGet(url){
+  const res = await fetch(url);
+  if(!res.ok){
+    const t = await res.text();
+    throw new Error("HTTP "+res.status+": "+t);
+  }
+  return res.json();
+}
+
+async function apiPost(url, body){
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type":"application/json" },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){
+    const t = await res.text();
+    throw new Error("HTTP "+res.status+": "+t);
+  }
+  return res.json();
+}
+
+// ===============================
+// Load Session & Questions
+// ===============================
+
+async function load(){
+  const sid = getQuery("session_id") || 1;
+
+  document.getElementById("session-info").textContent =
+    "Loading session " + sid + "...";
+
+  try {
+    const data = await apiGet("/api/session?session_id=" + sid);
+
+    document.getElementById("session-info").textContent =
+      "Session " + data.session_id +
+      " — total sessions: " + data.total_sessions;
+
+    const qdiv = document.getElementById("questions");
+    qdiv.innerHTML = "";
+
+    data.questions.forEach(q => {
+      const card = document.createElement("div");
+      card.className = "mb-6";
+
+      card.innerHTML =
+        `<h3 class="font-semibold mb-2">${q.pertanyaan || 'Soal'}</h3>`;
+
+      ["pilihan_a","pilihan_b","pilihan_c","pilihan_d"].forEach(opt => {
+        const label = document.createElement("label");
+        label.className = "block pl-2";
+
+        const text = q[opt] || "";
+
+        label.innerHTML = `
+          <input type="radio" name="q${q.id_soal}" value="${opt}">
+          ${text}
+        `;
+
+        card.appendChild(label);
+      });
+
+      qdiv.appendChild(card);
+    });
+
+  } catch (err) {
+    document.getElementById("session-info").textContent =
+      "Error loading session: " + err.message;
+    console.error(err);
+  }
+}
+
+
+// ===============================
+// Submit answers
+// ===============================
+
+document.getElementById("submitBtn").addEventListener("click", async ()=>{
+  try {
+    const sid = getQuery("session_id") || 1;
+    const answers = {};
+
+    document.querySelectorAll('[name^="q"]').forEach(inp=>{
+      if (inp.checked) {
+        const name = inp.name.replace("q","");
+        answers[name] = inp.value.replace("pilihan_","").toUpperCase();
+      }
+    });
+
+    const res = await apiPost("/api/submit", {
+      session_id: parseInt(sid),
+      answers: answers
+    });
+
+    alert(
+      "Score: " + res.score + "/" + res.total +
+      " — Passed: " + res.passed
+    );
+
+    if (res.next_session){
+      window.location.href = "/session.html?session_id=" + res.next_session;
+    }
+
+  } catch (err){
+    alert("Submit failed: " + err.message);
+    console.error(err);
+  }
+});
+
+// ===============================
+// Back button
+// ===============================
+
+document.getElementById("backBtn").addEventListener("click", ()=>{
+  window.location.href = "/";
+});
+
+// Run loader
+window.addEventListener("DOMContentLoaded", load);
+
+</script>
+
+</body>
+</html>
