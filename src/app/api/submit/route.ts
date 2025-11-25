@@ -22,10 +22,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get questions for this session
-    const startIndex = (sessionId - 1) * 10;
-    const endIndex = sessionId * 10;
-    const sessionQuestions = rawQuestions.slice(startIndex, endIndex);
+    // Get questions based on submitted answer IDs
+    const questionIds = Object.keys(answers).map(id => parseInt(id));
+    const sessionQuestions = rawQuestions.filter((q: any) => questionIds.includes(q.id_soal));
+
+    if (sessionQuestions.length === 0) {
+      return NextResponse.json(
+        { error: 'No matching questions found' },
+        { status: 400 }
+      );
+    }
 
     // Validate answers
     const results: { [key: string]: boolean } = {};

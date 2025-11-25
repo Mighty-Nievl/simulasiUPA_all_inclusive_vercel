@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { saveProgress } from "@/lib/progress";
+import { 
+  saveProgress, 
+  getProgress, 
+  saveSessionQuestions, 
+  getSessionQuestions,
+  saveCurrentAnswers,
+  getCurrentAnswers,
+  clearCurrentAnswers
+} from "@/lib/progress";
 
 interface Question {
   id: number;
@@ -43,10 +51,49 @@ export default function ExamSimulation({
   useEffect(() => {
     async function loadQuestions() {
       try {
-        const response = await fetch(`/api/session/${sessionId}`);
-        if (!response.ok) throw new Error("Failed to load questions");
-        const data = await response.json();
-        setQuestions(data.questions);
+        setLoading(true);
+        // 1. Check if we already have questions assigned for this session
+        const assignedIds = getSessionQuestions(sessionId);
+        
+        if (assignedIds && assignedIds.length > 0) {
+          // Fetch these specific questions
+          const response = await fetch('/api/questions/batch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ questionIds: assignedIds })
+          });
+          
+          if (!response.ok) throw new Error("Failed to load assigned questions");
+          const data = await response.json();
+          setQuestions(data.questions);
+        } else {
+          // 2. Fetch new random questions excluding mastered ones
+          const progress = getProgress();
+          const response = await fetch('/api/questions/random', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              excludeIds: progress.masteredQuestionIds,
+              count: 10
+            })
+          });
+
+          if (!response.ok) throw new Error("Failed to load random questions");
+          const data = await response.json();
+          
+          // Save these questions as assigned for this session
+          const newQuestionIds = data.questions.map((q: Question) => q.id);
+          saveSessionQuestions(sessionId, newQuestionIds);
+          
+          setQuestions(data.questions);
+        }
+        
+        // Load saved answers if any
+        const savedAnswers = getCurrentAnswers(sessionId);
+        if (savedAnswers) {
+          setAnswers(savedAnswers);
+        }
+        
         setLoading(false);
       } catch (error) {
         console.error("Error loading questions:", error);
@@ -86,10 +133,15 @@ export default function ExamSimulation({
   const handleAnswerSelect = (questionId: number, optionIndex: number) => {
     if (submitted) return;
 
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionIndex,
-    }));
+    setAnswers((prev) => {
+      const newAnswers = {
+        ...prev,
+        [questionId]: optionIndex,
+      };
+      // Persist answers
+      saveCurrentAnswers(sessionId, newAnswers);
+      return newAnswers;
+    });
   };
 
   const handleSubmit = async () => {
@@ -114,7 +166,11 @@ export default function ExamSimulation({
       setSubmitted(true);
 
       if (data.success) {
-        saveProgress(sessionId);
+        // Identify correct questions to mark as mastered
+        const correctIds = questions.map(q => q.id); // Since success means 100% correct
+        saveProgress(sessionId, correctIds);
+        clearCurrentAnswers(sessionId); // Clear saved answers on success
+        
         await fetch("/api/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -128,9 +184,12 @@ export default function ExamSimulation({
 
   const handleRetry = () => {
     setAnswers({});
+    clearCurrentAnswers(sessionId); // Clear saved answers on retry
     setSubmitted(false);
     setResults(null);
     setCurrentQuestionIndex(0);
+    // Shuffle current questions
+    setQuestions(prev => [...prev].sort(() => 0.5 - Math.random()));
   };
 
   if (loading) {
@@ -394,7 +453,7 @@ export default function ExamSimulation({
                 </svg>
                 Kembali ke Beranda
               </button>
-              {results.success && sessionId < 20 && (
+              {results.success && sessionId < 20 ? (
                 <button
                   onClick={onNextSession}
                   className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-emerald-500/30 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
@@ -404,6 +463,10 @@ export default function ExamSimulation({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </button>
+              ) : sessionId < 20 && (
+                <p className="text-xs text-slate-500 mt-2 max-w-[200px] text-center">
+                  Tombol lanjut akan muncul jika nilai 100%
+                </p>
               )}
             </div>
           </div>
