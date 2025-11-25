@@ -1,6 +1,5 @@
 {
-  "/api/submit/route": "app/api/submit/route.js",
-  "/api/progress/route": "app/api/progress/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/api/questions/batch/route": "app/api/questions/batch/route.js",
   "/page": "app/page.js"
 }

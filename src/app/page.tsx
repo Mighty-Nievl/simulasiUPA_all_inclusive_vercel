@@ -1,32 +1,50 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { getProgress, isSessionUnlocked, isSessionCompleted, resetProgress } from '@/lib/progress';
-import ExamSimulation from '@/components/ExamSimulation';
+import { useState, useEffect } from "react";
+import {
+  getProgress,
+  isSessionUnlocked,
+  isSessionCompleted,
+  resetProgress,
+} from "@/lib/progress";
+import ExamSimulation from "@/components/ExamSimulation";
 
 export default function Home() {
   const [selectedSession, setSelectedSession] = useState<number | null>(null);
-  const [progress, setProgress] = useState<{ completedSessions: number[], currentSession: number }>({ completedSessions: [], currentSession: 1 });
+  const [progress, setProgress] = useState<{
+    completedSessions: number[];
+    currentSession: number;
+  }>({ completedSessions: [], currentSession: 1 });
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true); // Default to dark
 
   useEffect(() => {
     setProgress(getProgress());
-    const isDark = localStorage.getItem('darkMode') === 'true' || document.documentElement.classList.contains('dark');
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
+    
+    // Check local storage or system preference
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode !== null) {
+      setDarkMode(savedMode === "true");
+      if (savedMode === "true") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    } else {
+      // Default to dark mode for this app style
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', String(newDarkMode));
+    localStorage.setItem("darkMode", String(newDarkMode));
     if (newDarkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   };
 
@@ -50,149 +68,300 @@ export default function Home() {
     resetProgress();
     setProgress({ completedSessions: [], currentSession: 1 });
     setShowResetConfirm(false);
-    fetch('/api/reset', { method: 'POST' });
+    fetch("/api/reset", { method: "POST" });
   };
 
   if (selectedSession) {
-    return <ExamSimulation key={selectedSession} sessionId={selectedSession} onExit={handleExitSession} onNextSession={handleNextSession} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />;
+    return (
+      <ExamSimulation
+        key={selectedSession}
+        sessionId={selectedSession}
+        onExit={handleExitSession}
+        onNextSession={handleNextSession}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
+    );
   }
 
   const completedCount = progress.completedSessions.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
-      <header className="bg-slate-800/80 backdrop-blur-md border-b border-slate-700 px-4 md:px-6 py-3 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex flex-col relative overflow-hidden selection:bg-emerald-500/30 transition-colors duration-300">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_50%)]" />
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="grid-pattern"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M0 40L40 0H20L0 20M40 40V20L20 40"
+                stroke="currentColor"
+                strokeWidth="0.5"
+                className="text-slate-300 dark:text-slate-800"
+                fill="none"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+        </svg>
+      </div>
+
+      <header className="relative z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 md:px-6 py-4 sticky top-0 transition-colors duration-300">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
-            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-2 rounded-xl shadow-lg shadow-emerald-500/30">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-2 rounded-xl shadow-lg shadow-emerald-500/20">
+              <svg
+                className="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
               </svg>
             </div>
             <div>
-              <h1 className="text-base md:text-lg font-bold text-white tracking-tight truncate">Simulasi UPA PERADI</h1>
-              <p className="text-xs text-slate-400 font-medium hidden sm:block">Ujian Profesi Advokat - Sistem Pembelajaran Gamifikasi</p>
+              <h1 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight truncate">
+                Simulasi UPA PERADI
+              </h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
+                Sistem Pembelajaran Gamifikasi
+              </p>
             </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              aria-label={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {darkMode ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+
+            {/* Reset Button */}
+            {completedCount > 0 && (
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500 hover:text-red-700 dark:hover:text-white transition-all text-xs font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                title="Reset Progress"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span className="hidden sm:inline">Reset</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
 
-      <main className="flex-1 flex items-center max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-6 w-full">
-        <div className="bg-slate-800/60 backdrop-blur-md rounded-2xl md:rounded-3xl shadow-2xl shadow-black/30 w-full overflow-hidden border border-slate-700">
-          <div className="grid md:grid-cols-2 gap-0">
-            <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 md:p-10 overflow-hidden flex flex-col justify-center border-r border-slate-700/50">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-teal-500/5 rounded-full blur-3xl" />
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                  Siap Hadapi <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">UPA?</span>
-                </h2>
-                <p className="text-sm md:text-base text-slate-300 mb-6 md:mb-8 leading-relaxed">
-                  Sistem simulasi ini dirancang untuk membantu Anda mempersiapkan Ujian Profesi Advokat (UPA) PERADI dengan materi terupdate.
-                </p>
-                <button
-                  onClick={handleStartExam}
-                  className="group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:via-teal-600 hover:to-emerald-700 text-white font-bold py-3 md:py-4 px-8 md:px-10 rounded-xl md:rounded-2xl shadow-xl shadow-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 active:scale-95 text-sm md:text-base min-h-[44px] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-                  aria-label="Mulai ujian simulasi UPA"
+      <main className="relative z-10 flex-1 flex items-center justify-center p-4 md:p-6 w-full max-w-6xl mx-auto">
+        <div className="w-full grid md:grid-cols-2 gap-6 md:gap-12 items-center">
+          {/* Hero Section */}
+          <div className="text-left space-y-6 md:space-y-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Edisi Terbaru 2025
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-tight tracking-tight">
+              Siap Hadapi <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500 dark:from-emerald-400 dark:to-teal-400">
+                Ujian Profesi?
+              </span>
+            </h2>
+            
+            <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-lg">
+              Simulasi ujian advokat dengan sistem gamifikasi. Pelajari 200 soal
+              terupdate dari 8 materi hukum utama.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={handleStartExam}
+                className="group relative inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-white dark:text-slate-900 font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)]"
+              >
+                <span className="relative z-10">Mulai Ujian Sekarang</span>
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  Mulai Ujian
-                  <svg className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </button>
-              </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </button>
             </div>
 
-            <div className="p-6 md:p-10 bg-slate-800/60">
-              <div className="flex items-center gap-2.5 mb-4 md:mb-5">
-                <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-1.5 rounded-lg shadow-lg shadow-blue-500/30">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            <div className="flex items-center gap-6 text-sm text-slate-500 font-medium">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                200 Soal Premium
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Instant Feedback
+              </div>
+            </div>
+          </div>
+
+          {/* Rules Card */}
+          <div className="relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-20 dark:opacity-20 opacity-10"></div>
+            <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center border border-slate-200 dark:border-slate-700 shadow-inner">
+                  <svg
+                    className="w-6 h-6 text-emerald-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-lg md:text-xl font-bold text-white">Aturan Ujian</h3>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">Aturan Main</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Pahami sebelum mulai</p>
+                </div>
               </div>
-              <ul className="space-y-2 md:space-y-3">
+
+              <ul className="space-y-4">
                 {[
-                  { text: 'Total <strong class="text-white font-bold">200 soal</strong> dibagi menjadi 20 sesi', critical: false },
-                  { text: 'Setiap sesi berisi <strong class="text-white font-bold">10 soal</strong> pilihan ganda', critical: false },
-                  { text: 'Anda harus menjawab <strong class="text-amber-400 font-extrabold">100% benar</strong> untuk melanjutkan ke sesi berikutnya', critical: true },
-                  { text: 'Jika ada jawaban salah, Anda harus mengulang sesi yang sama', critical: false },
-                  { text: 'Materi mencakup <strong class="text-white font-bold">8 bidang hukum</strong> sesuai kisi-kisi PERADI', critical: false }
-                ].map((rule, index) => (
-                  <li key={index} className={`flex items-start gap-3 p-2 rounded-lg ${rule.critical ? 'bg-amber-500/10 border-l-4 border-amber-500 shadow-sm' : 'hover:bg-slate-700/30'} transition-all group min-h-[44px]`}>
-                    <div className={`${rule.critical ? 'bg-amber-900/40' : 'bg-emerald-900/30 group-hover:scale-110'} p-1 rounded-lg mt-0.5 transition-transform`}>
-                      <svg className={`w-4 h-4 ${rule.critical ? 'text-amber-400' : 'text-emerald-400'}`} fill="currentColor" viewBox="0 0 20 20">
-                        {rule.critical ? (
-                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                        ) : (
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        )}
-                      </svg>
-                    </div>
-                    <span className={`leading-relaxed text-sm ${rule.critical ? 'text-slate-200 font-semibold' : 'text-slate-300 font-medium'}`} dangerouslySetInnerHTML={{ __html: rule.text }} />
+                  {
+                    text: "Total 200 soal dibagi menjadi 20 sesi latihan",
+                    icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+                  },
+                  {
+                    text: "Wajib benar 100% untuk lanjut ke sesi berikutnya",
+                    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+                    highlight: true,
+                  },
+                  {
+                    text: "Setiap sesi terdiri dari 10 soal pilihan ganda",
+                    icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+                  },
+                  {
+                    text: "Mencakup 8 materi hukum sesuai kisi-kisi PERADI",
+                    icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+                  },
+                ].map((rule, i) => (
+                  <li
+                    key={i}
+                    className={`flex items-start gap-4 p-3 rounded-xl transition-colors ${
+                      rule.highlight
+                        ? "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20"
+                        : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    }`}
+                  >
+                    <svg
+                      className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                        rule.highlight ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d={rule.icon}
+                      />
+                    </svg>
+                    <span
+                      className={`text-sm leading-relaxed ${
+                        rule.highlight ? "text-emerald-800 dark:text-emerald-100 font-medium" : "text-slate-600 dark:text-slate-300"
+                      }`}
+                    >
+                      {rule.text}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-
-          {completedCount > 0 && (
-            <div className="px-6 md:px-10 pb-3 md:pb-4 bg-slate-800/60 border-t border-slate-700/50">
-              <button
-                onClick={() => setShowResetConfirm(true)}
-                className="w-full flex items-center justify-center gap-2 text-xs text-slate-400 hover:text-red-400 transition-colors py-2 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded-lg"
-                aria-label="Reset progress"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Reset Progress
-              </button>
-            </div>
-          )}
         </div>
       </main>
 
-      <footer className="bg-slate-800/50 backdrop-blur-sm border-t border-slate-700 py-3 md:py-4 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto text-center text-xs text-slate-400">
-          <p className="font-medium">© 2025 Simulasi UPA PERADI</p>
-          <p className="mt-1 md:mt-1.5 flex items-center justify-center gap-1 md:gap-1.5 flex-wrap">
-            Made with 
-            <svg className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-            </svg>
-            by <span className="font-bold text-slate-200">Rezal Helvin Bramantara, S.H.</span>
-          </p>
-        </div>
+      <footer className="relative z-10 py-6 text-center text-slate-400 text-xs">
+        <p>© 2025 Simulasi UPA PERADI. Made by Rezal Helvin Bramantara, S.H.</p>
       </footer>
 
       {showResetConfirm && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
-          <div className="bg-slate-800 rounded-2xl max-w-md w-full p-8 shadow-2xl transform animate-scaleIn border border-slate-700">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-red-900/30 p-2 rounded-lg">
-                <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        <div className="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-8 shadow-2xl border border-slate-200 dark:border-slate-800 transform animate-scaleIn">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-red-100 dark:bg-red-500/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-red-600 dark:text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-white">Reset Progress?</h3>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Reset Progress?</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Tindakan ini permanen</p>
+              </div>
             </div>
-            <p className="text-slate-300 mb-8 leading-relaxed">
-              Semua progress Anda akan dihapus dan Anda akan kembali ke Sesi 1. Tindakan ini tidak dapat dibatalkan.
+            <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+              Apakah Anda yakin ingin menghapus semua riwayat ujian? Anda akan
+              kembali ke Sesi 1 dan semua nilai akan hilang.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowResetConfirm(false)}
-                className="flex-1 px-6 py-3 border-2 border-slate-600 text-slate-200 font-semibold rounded-xl hover:bg-slate-700 transition-all duration-200 hover:scale-105 active:scale-100 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                className="flex-1 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-medium rounded-xl transition-colors"
               >
                 Batal
               </button>
               <button
                 onClick={handleResetProgress}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-105 active:scale-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-red-600/20"
               >
-                Reset
+                Ya, Reset
               </button>
             </div>
           </div>
