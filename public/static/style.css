@@ -1059,47 +1059,128 @@ body.dark-mode .option:hover label {
 /* Responsive */
 @media (max-width: 768px) {
   .container {
-    padding: 16px;
+    padding: 0;
   }
 
   .title {
-    font-size: 1.2rem;
+    font-size: 1.125rem;
   }
 
   .subtitle {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
   }
 
   .header {
-    padding: 24px;
+    padding: 16px 20px;
   }
 
-  .welcome-card,
+  .header-logo {
+    font-size: 32px;
+  }
+
+  /* Welcome screen mobile */
+  .welcome-card {
+    padding: 32px 24px;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .welcome-card h2 {
+    font-size: 1.75rem;
+  }
+
+  .welcome-card p {
+    font-size: 0.9375rem;
+  }
+
+  /* Welcome dark mode toggle mobile */
+  .welcome-dark-mode-toggle {
+    top: 16px;
+    right: 20px;
+    gap: 8px;
+  }
+
+  .welcome-dark-mode-toggle span {
+    font-size: 1rem;
+  }
+
+  /* Split layout becomes single column */
+  .welcome-split-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .info-box {
+    padding: 20px;
+  }
+
+  .info-box h3 {
+    font-size: 0.9375rem;
+  }
+
+  .info-box li {
+    font-size: 0.8125rem;
+    padding: 5px 0 5px 20px;
+  }
+
+  /* Result card mobile */
   .result-card {
-    padding: 24px;
+    padding: 20px 24px;
   }
 
+  /* Buttons mobile */
   .btn {
     width: 100%;
     margin: 6px 0;
+    padding: 14px 20px;
+    font-size: 0.9375rem;
   }
 
+  .btn-primary {
+    padding: 16px 32px;
+    font-size: 1rem;
+  }
+
+  .welcome-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .welcome-buttons .btn {
+    width: 100%;
+  }
+
+  /* Answer rows mobile */
   .answer-row {
     flex-direction: column;
     gap: 6px;
   }
 
+  /* Explanation cards mobile */
   .explanation-card {
     padding: 16px;
   }
 
+  /* Question card mobile */
   .question-card {
-    padding: 20px;
+    padding: 24px 20px;
   }
 
+  .question-text {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .option label {
+    padding: 14px 18px 14px 50px;
+    font-size: 0.9375rem;
+  }
+
+  /* Question navigation mobile */
   .question-navigation {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
 
   .question-navigation .btn {
@@ -1110,10 +1191,93 @@ body.dark-mode .option:hover label {
   .question-indicator {
     order: 1;
     width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .indicator-dot {
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
   }
 
   .btn-submit-final {
     order: 2;
+  }
+
+  /* Session info mobile */
+  .session-info {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .session-info h2 {
+    font-size: 1.125rem;
+  }
+
+  .session-info p {
+    font-size: 0.8125rem;
+  }
+
+  .session-info-right {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .question-badge,
+  .question-topic-badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+
+  /* Progress bar mobile */
+  .progress-bar {
+    height: 6px;
+  }
+
+  .progress-text {
+    font-size: 0.75rem;
+  }
+
+  /* Footer mobile */
+  .footer {
+    padding: 16px 20px;
+    font-size: 0.75rem;
+  }
+
+  /* Result icon mobile */
+  .result-icon {
+    font-size: 3rem;
+  }
+
+  .score-display h3 {
+    font-size: 2rem;
+  }
+}
+
+/* Tablet responsive (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .welcome-card {
+    padding: 48px 40px;
+    max-width: 900px;
+  }
+
+  .welcome-card h2 {
+    font-size: 2rem;
+  }
+
+  .header {
+    padding: 16px 32px;
+  }
+
+  .question-card {
+    padding: 32px 28px;
+  }
+
+  .indicator-dot {
+    width: 30px;
+    height: 30px;
   }
 }
 /* Custom Alert Modal */
