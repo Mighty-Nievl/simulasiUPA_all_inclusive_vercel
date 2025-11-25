@@ -161,9 +161,8 @@ export default function ExamSimulation({ sessionId, onExit, darkMode, toggleDark
 
   if (submitted && results) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
-        {/* Header */}
-        <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 px-6 py-3">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
+        <header className="bg-slate-800/80 backdrop-blur-md border-b border-slate-700 px-4 md:px-6 py-3">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <div className="flex items-center gap-2.5">
               <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-1.5 rounded-xl shadow-lg shadow-emerald-500/30">
@@ -172,52 +171,57 @@ export default function ExamSimulation({ sessionId, onExit, darkMode, toggleDark
                 </svg>
               </div>
               <div>
-                <h1 className="text-sm font-bold text-gray-900 dark:text-white">Simulasi UPA PERADI</h1>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Ujian Profesi Advokat - Sistem Pembelajaran Gamifikasi</p>
+                <h1 className="text-sm font-bold text-white">Simulasi UPA PERADI</h1>
+                <p className="text-xs text-slate-400">Ujian Profesi Advokat - Sistem Pembelajaran Gamifikasi</p>
               </div>
             </div>
           </div>
         </header>
 
-        <div className="flex items-center justify-center p-8">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl p-10 text-center border border-gray-200 dark:border-gray-700">
-            <div className="mb-6 flex justify-center">
-              {results.success ? (
-                <div className="bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 p-4 rounded-full">
-                  <svg className="w-16 h-16 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              ) : (
-                <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 p-4 rounded-full">
-                  <svg className="w-16 h-16 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                </div>
-              )}
+        <div className="flex-1 flex items-center justify-center p-4 md:p-8">
+          <div className="w-full max-w-2xl">
+            <div className="text-center mb-8">
+              <div className="mb-6 flex justify-center">
+                {results.success ? (
+                  <div className="bg-emerald-900/50 p-6 rounded-full">
+                    <svg className="w-20 h-20 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className="bg-amber-900/50 p-6 rounded-full">
+                    <svg className="w-20 h-20 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                {results.success ? 'Sempurna!' : 'Belum Sempurna'}
+              </h2>
+              <p className="text-base md:text-lg text-slate-300 mb-8">
+                {results.message}
+              </p>
             </div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-              {results.success ? 'Sempurna!' : 'Belum Sempurna'}
-            </h2>
-            <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
-              {results.message}
-            </p>
 
             {!results.success && (
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-2 border-amber-500 rounded-xl p-6 mb-8 text-left">
-                <h3 className="font-bold text-amber-800 dark:text-amber-400 mb-3 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <div className="bg-slate-800/40 border-2 border-amber-600/80 rounded-2xl p-6 md:p-8 mb-8 backdrop-blur-sm">
+                <h3 className="font-bold text-amber-500 mb-4 flex items-center gap-2 text-lg">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
                   Jawaban yang Salah:
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {Object.entries(results.results).map(([questionId, isCorrect]) => {
                     if (!isCorrect) {
                       const question = questions.find(q => q.id === parseInt(questionId));
                       return (
-                        <div key={questionId} className="text-sm text-gray-700 dark:text-gray-300">
-                          • Soal #{question?.id}: {question?.question.substring(0, 50)}...
+                        <div key={questionId} className="text-sm md:text-base text-slate-200 flex items-start gap-2">
+                          <span className="text-amber-500 mt-0.5">•</span>
+                          <span>
+                            <strong className="text-amber-500">Soal #{question?.id}:</strong> {question?.question.substring(0, 80)}...
+                          </span>
                         </div>
                       );
                     }
@@ -227,11 +231,12 @@ export default function ExamSimulation({ sessionId, onExit, darkMode, toggleDark
               </div>
             )}
 
-            <div className="flex gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               {results.success ? (
                 <button 
                   onClick={onExit} 
-                  className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-emerald-500/40 transition-all"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-emerald-500/40 transition-all min-h-[44px] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                  aria-label="Kembali ke beranda"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -242,7 +247,8 @@ export default function ExamSimulation({ sessionId, onExit, darkMode, toggleDark
                 <>
                   <button 
                     onClick={onExit} 
-                    className="flex items-center gap-2 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 px-6 py-3 rounded-xl font-medium transition-all"
+                    className="flex items-center justify-center gap-2 border-2 border-slate-600 hover:bg-slate-700 text-slate-200 px-6 py-3 rounded-xl font-medium transition-all min-h-[44px] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                    aria-label="Kembali"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -251,7 +257,8 @@ export default function ExamSimulation({ sessionId, onExit, darkMode, toggleDark
                   </button>
                   <button 
                     onClick={handleRetry} 
-                    className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-emerald-500/40 transition-all"
+                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-emerald-500/40 transition-all min-h-[44px] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                    aria-label="Coba lagi"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
