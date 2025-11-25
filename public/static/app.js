@@ -466,14 +466,17 @@ function toggleDarkMode() {
   localStorage.setItem("darkMode", isDarkMode);
 }
 
+
 // Initialize Dark Mode
 document.addEventListener("DOMContentLoaded", () => {
   const isDarkMode = localStorage.getItem("darkMode") === "true";
   const darkModeSwitch = document.getElementById("darkModeSwitch");
+  const darkModeSwitchWelcome = document.getElementById("darkModeSwitchWelcome");
 
   if (isDarkMode) {
     document.body.classList.add("dark-mode");
     if (darkModeSwitch) darkModeSwitch.checked = true;
+    if (darkModeSwitchWelcome) darkModeSwitchWelcome.checked = true;
   }
 });
 

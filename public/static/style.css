@@ -13,7 +13,7 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
-  
+
   /* Neutral Colors */
   --gray-50: #fafafa;
   --gray-100: #f5f5f5;
@@ -25,28 +25,31 @@
   --gray-700: #404040;
   --gray-800: #262626;
   --gray-900: #171717;
-  
+
   /* Surface Colors */
   --surface-ground: #ffffff;
   --surface-section: #fafafa;
   --surface-card: #ffffff;
   --surface-overlay: #ffffff;
   --surface-border: #e5e5e5;
-  
+
   /* Text Colors */
   --text-primary: #171717;
   --text-secondary: #525252;
   --text-muted: #737373;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   background: var(--gray-50);
   color: var(--text-primary);
   height: 100vh;
@@ -166,7 +169,7 @@ body {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .welcome-rules-section {
     height: auto;
   }
@@ -379,17 +382,15 @@ body {
   padding: 16px 40px;
   font-size: 1.0625rem;
   font-weight: 700;
-  box-shadow: 
-    0 8px 20px rgba(16, 185, 129, 0.35),
-    0 0 0 0 rgba(16, 185, 129, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35),
+    0 0 0 0 rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   animation: pulse-glow 2.5s ease-in-out infinite;
   position: relative;
   overflow: hidden;
 }
 
 .btn-primary::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -406,15 +407,13 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 
-      0 8px 20px rgba(16, 185, 129, 0.35),
-      0 0 0 0 rgba(16, 185, 129, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  0%,
+  100% {
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35),
+      0 0 0 0 rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
   50% {
-    box-shadow: 
-      0 8px 20px rgba(16, 185, 129, 0.35),
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35),
       0 0 20px 5px rgba(16, 185, 129, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
@@ -433,10 +432,8 @@ body {
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border-color: #059669;
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 
-    0 12px 28px rgba(16, 185, 129, 0.45),
-    0 0 30px 8px rgba(16, 185, 129, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.45),
+    0 0 30px 8px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   animation: none;
 }
 
@@ -446,15 +443,13 @@ body {
 
 /* Reduce glow on navigation buttons in exam */
 .question-navigation .btn-primary {
-  box-shadow: 
-    0 4px 12px rgba(16, 185, 129, 0.25),
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   animation: none;
 }
 
 .question-navigation .btn-primary:hover {
-  box-shadow: 
-    0 6px 16px rgba(16, 185, 129, 0.35),
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -502,7 +497,6 @@ body {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
-
 
 /* Questions - Ultra Clean */
 .question-card {
@@ -624,7 +618,7 @@ body.dark-mode .option:hover label {
 
 /* Custom Radio - Outer Circle */
 .option label::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 18px;
   top: 50%;
@@ -639,7 +633,7 @@ body.dark-mode .option:hover label {
 
 /* Custom Radio - Inner Dot (Pop-in Animation) */
 .option label::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 24px; /* Centered in 22px circle at left 18px */
   top: 50%;
@@ -657,7 +651,8 @@ body.dark-mode .option:hover label {
   border-color: #10b981;
   background: rgba(16, 185, 129, 0.15);
   color: var(--text-primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 2px 8px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1),
+    0 2px 8px rgba(16, 185, 129, 0.15);
 }
 
 .option input[type="radio"]:checked + label::before {
@@ -721,7 +716,8 @@ body.dark-mode .option:hover label {
 }
 
 @keyframes pulse-dot {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
   }
   50% {
@@ -998,7 +994,6 @@ body.dark-mode .option:hover label {
   font-weight: 600;
 }
 
-
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -1088,12 +1083,12 @@ body.dark-mode .option:hover label {
     width: 100%;
     margin: 6px 0;
   }
-  
+
   .answer-row {
     flex-direction: column;
     gap: 6px;
   }
-  
+
   .explanation-card {
     padding: 16px;
   }
@@ -1101,22 +1096,22 @@ body.dark-mode .option:hover label {
   .question-card {
     padding: 20px;
   }
-  
+
   .question-navigation {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .question-navigation .btn {
     width: 100%;
     order: 3;
   }
-  
+
   .question-indicator {
     order: 1;
     width: 100%;
   }
-  
+
   .btn-submit-final {
     order: 2;
   }
@@ -1143,7 +1138,8 @@ body.dark-mode .option:hover label {
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   color: white;
   display: flex;
   flex-direction: column;
@@ -1317,7 +1313,8 @@ body.dark-mode .dark-mode-toggle {
 
 input:checked + .slider {
   background-color: #10b981;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 8px rgba(16, 185, 129, 0.3);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15),
+    0 0 8px rgba(16, 185, 129, 0.3);
 }
 
 input:checked + .slider:before {
@@ -1330,7 +1327,8 @@ input:checked + .slider:before {
 }
 
 input:checked + .slider:hover {
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 8px rgba(16, 185, 129, 0.4);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15),
+    0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 /* Dark Mode Variables */
@@ -1345,17 +1343,17 @@ body.dark-mode {
   --gray-700: #d4d4d4;
   --gray-800: #e5e5e5;
   --gray-900: #ffffff;
-  
+
   --surface-ground: #0a0a0a;
   --surface-section: #1a1a1a;
   --surface-card: #1a1a1a;
   --surface-overlay: #2a2a2a;
   --surface-border: #3a3a3a;
-  
+
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   --text-muted: #808080;
-  
+
   --primary: #ffffff;
   --primary-dark: #e5e5e5;
   --primary-light: #f5f5f5;
@@ -1545,7 +1543,8 @@ body.dark-mode .option input[type="radio"]:checked + label {
   background: rgba(16, 185, 129, 0.2);
   border-color: #10b981;
   color: var(--text-primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15), 0 2px 8px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15),
+    0 2px 8px rgba(16, 185, 129, 0.2);
 }
 
 body.dark-mode .option input[type="radio"]:checked + label::before {
@@ -1588,7 +1587,6 @@ body.dark-mode .result-card {
 body.dark-mode .session-info {
   border-bottom: 1px solid var(--surface-border);
 }
-
 
 /* Exam screen uses fixed sidebar layout */
 body.exam-active .container,
@@ -1708,41 +1706,72 @@ body:not(.exam-active):not(.result-active) .footer-sidebar {
   display: none;
 }
 
-/* Hide top-right navigation on welcome screen */
-body:not(.exam-active):not(.result-active) .sidebar-menu {
+/* Welcome Screen Dark Mode Toggle */
+.welcome-dark-mode-toggle {
   position: absolute;
-  top: 16px;
-  right: 24px;
+  top: 24px;
+  right: 32px;
+  display: none; /* Hidden by default */
+  align-items: center;
+  gap: 12px;
+  z-index: 100;
+}
+
+.welcome-dark-mode-toggle span {
+  font-size: 1.25rem;
+  user-select: none;
+}
+
+/* Show welcome toggle only on welcome screen */
+body:not(.exam-active):not(.result-active) .welcome-dark-mode-toggle {
+  display: flex;
+}
+
+/* Hide sidebar menu on welcome screen */
+body:not(.exam-active):not(.result-active) .sidebar-menu {
+  display: none;
+}
+
+/* Show sidebar menu during exam/result */
+body.exam-active .sidebar-menu,
+body.result-active .sidebar-menu {
+  display: flex;
 }
 
 /* --- Fix Hero Container for Laptop Layout --- */
 .hero-container {
-    margin-top: 1.5rem !important;  /* Kurangi jarak atas */
-    padding: 2rem !important;        /* Spasi dalam */
-    max-width: 1100px !important;    /* Biar nggak terlalu melebar */
-    margin-left: auto !important;
-    margin-right: auto !important;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
+  margin-top: 1.5rem !important; /* Kurangi jarak atas */
+  padding: 2rem !important; /* Spasi dalam */
+  max-width: 1100px !important; /* Biar nggak terlalu melebar */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
 }
 
 /* --- Fix Hero Container for Laptop Layout --- */
-.hero-container, .hero, .main-card, .card-hero {
-    margin-top: 1.5rem !important;  /* Kurangi jarak atas */
-    padding: 2rem !important;        /* Spasi dalam */
-    max-width: 1100px !important;    /* Biar nggak terlalu melebar */
-    margin-left: auto !important;
-    margin-right: auto !important;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
+.hero-container,
+.hero,
+.main-card,
+.card-hero {
+  margin-top: 1.5rem !important; /* Kurangi jarak atas */
+  padding: 2rem !important; /* Spasi dalam */
+  max-width: 1100px !important; /* Biar nggak terlalu melebar */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Shadow lebih halus */
 }
 
 /* Responsive tweak */
 @media (max-width: 768px) {
-    .hero-container, .hero, .main-card, .card-hero {
-        padding: 1.25rem !important;
-        margin-top: 1rem !important;
-    }
+  .hero-container,
+  .hero,
+  .main-card,
+  .card-hero {
+    padding: 1.25rem !important;
+    margin-top: 1rem !important;
+  }
 }
