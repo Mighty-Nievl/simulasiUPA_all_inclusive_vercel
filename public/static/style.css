@@ -1738,6 +1738,11 @@ body.result-active .sidebar-menu {
   display: flex;
 }
 
+/* Fix header layout on welcome screen - remove empty space on right */
+body:not(.exam-active):not(.result-active) .header {
+  justify-content: flex-start;
+}
+
 /* --- Fix Hero Container for Laptop Layout --- */
 .hero-container {
   margin-top: 1.5rem !important; /* Kurangi jarak atas */
