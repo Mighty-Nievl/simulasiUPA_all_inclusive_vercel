@@ -1,10 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
+  "/api/submit/route": "app/api/submit/route.js",
   "/api/progress/route": "app/api/progress/route.js",
   "/api/questions/batch/route": "app/api/questions/batch/route.js",
-  "/api/questions/random/route": "app/api/questions/random/route.js",
-  "/api/reset/route": "app/api/reset/route.js",
-  "/api/session/[sessionId]/route": "app/api/session/[sessionId]/route.js",
-  "/api/submit/route": "app/api/submit/route.js",
   "/page": "app/page.js"
 }

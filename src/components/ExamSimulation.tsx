@@ -272,6 +272,32 @@ export default function ExamSimulation({
     );
   }
 
+  if (questions.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4">
+        <div className="text-center max-w-md">
+          <div className="mb-6 flex justify-center">
+            <div className="bg-slate-800 p-4 rounded-full">
+              <svg className="w-16 h-16 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-4">Tidak Ada Soal</h2>
+          <p className="text-base text-slate-400 mb-8">
+            Maaf, tidak ada soal yang tersedia untuk sesi ini. Silakan coba reset progress atau hubungi admin.
+          </p>
+          <button
+            onClick={onExit}
+            className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-xl transition-all"
+          >
+            Kembali ke Menu
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (submitted && results) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
