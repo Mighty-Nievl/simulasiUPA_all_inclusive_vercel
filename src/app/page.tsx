@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { SITE_CONFIG } from "@/lib/config";
 
 export default function LandingPage() {
   const [darkMode, setDarkMode] = useState(true);
@@ -131,7 +132,7 @@ export default function LandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://app.simupa.web.id"
+                href={SITE_CONFIG.appUrl}
                 className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white dark:text-slate-900 font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2"
               >
                 <span className="relative z-10">Masuk ke Aplikasi</span>

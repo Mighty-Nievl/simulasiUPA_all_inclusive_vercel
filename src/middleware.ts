@@ -19,8 +19,8 @@ export default async function middleware(req: NextRequest) {
 
   // Define the domains
   // Adjust these based on your actual Vercel domains
-  const appDomain = "app.simupa.web.id";
-  const landingDomain = "simupa.web.id";
+  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || "app.simupa.web.id";
+  // const landingDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
 
   // Check if we are on the app subdomain
   // Also handle localhost for testing: app.localhost:3000
