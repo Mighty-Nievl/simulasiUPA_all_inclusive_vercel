@@ -260,6 +260,7 @@ export default function RegisterPage() {
               </a>
             </p>
           </div>
+          </div>
         </div>
       </div>
     </div>
