@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
-import { env } from "@/lib/env";
 
 export const config = {
   matcher: [
@@ -24,8 +23,8 @@ export default async function middleware(req: NextRequest) {
   const pathname = url.pathname;
 
   // Define domains
-  const rootDomain = env.NEXT_PUBLIC_ROOT_DOMAIN;
-  const appDomain = env.NEXT_PUBLIC_APP_DOMAIN;
+  const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
+  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || rootDomain;
 
   const isAppSubdomain = hostname === appDomain || hostname.startsWith("app.");
 

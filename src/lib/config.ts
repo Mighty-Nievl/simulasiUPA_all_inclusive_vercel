@@ -1,11 +1,17 @@
-import { env } from "@/lib/env";
+const formatUrl = (url: string) => {
+  if (!url) return "";
+  return url.startsWith("http") ? url : `https://${url}`;
+};
+
+const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || `https://${domain}`;
 
 export const SITE_CONFIG = {
   // Domain config
-  rootDomain: env.NEXT_PUBLIC_ROOT_DOMAIN,
-  appUrl: env.NEXT_PUBLIC_APP_URL,
-  loginUrl: env.NEXT_PUBLIC_LOGIN_URL,
-  registerUrl: env.NEXT_PUBLIC_REGISTER_URL,
+  rootDomain: domain,
+  appUrl: formatUrl(appUrl),
+  loginUrl: formatUrl(process.env.NEXT_PUBLIC_LOGIN_URL || `https://${domain}/login`),
+  registerUrl: formatUrl(process.env.NEXT_PUBLIC_REGISTER_URL || `https://${domain}/daftar`),
   
   // Other potential config items
   name: "Simulasi UPA PERADI",
