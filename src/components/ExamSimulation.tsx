@@ -261,7 +261,7 @@ export default function ExamSimulation({
                 </div>
               </div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Terjadi Kesalahan</h2>
-              <p className="text-slate-500 dark:text-slate-400 mb-6">{error}</p>
+              <p className="text-slate-600 dark:text-slate-400 mb-6">{error}</p>
               <button onClick={() => window.location.reload()} className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-colors">
                 Muat Ulang
               </button>
@@ -269,7 +269,7 @@ export default function ExamSimulation({
           ) : (
             <div className="flex flex-col items-center">
               <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mb-4"></div>
-              <p className="text-slate-500 dark:text-slate-400 font-medium animate-pulse">Memuat soal...</p>
+              <p className="text-slate-600 dark:text-slate-400 font-medium animate-pulse">Memuat soal...</p>
             </div>
           )}
         </div>
@@ -289,7 +289,7 @@ export default function ExamSimulation({
             </div>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Tidak Ada Soal</h2>
-          <p className="text-base text-slate-500 dark:text-slate-400 mb-8">
+          <p className="text-base text-slate-600 dark:text-slate-400 mb-8">
             Maaf, tidak ada soal yang tersedia untuk sesi ini. Silakan coba reset progress atau hubungi admin.
           </p>
           <button
@@ -363,7 +363,7 @@ export default function ExamSimulation({
               <h2 className="text-4xl font-bold mb-3 text-slate-900 dark:text-white tracking-tight">
                 {results.success ? "Luar Biasa!" : "Sesi Selesai"}
               </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400">{results.message}</p>
+              <p className="text-lg text-slate-700 dark:text-slate-400">{results.message}</p>
             </motion.div>
 
             {!results.success && (
@@ -495,13 +495,13 @@ export default function ExamSimulation({
               </svg>
             </button>
           </div>
-          <p className="text-xs text-slate-500 ml-11">Sistem Pembelajaran Advokat</p>
+          <p className="text-xs text-slate-600 ml-11">Sistem Pembelajaran Advokat</p>
         </div>
 
         <div className="p-6 flex-1 overflow-y-auto">
           {/* Timer Widget */}
           <div className="mb-8 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700/50">
-            <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 mb-2">
+            <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400 mb-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -514,7 +514,7 @@ export default function ExamSimulation({
 
           <div className="mb-8">
             <div className="flex justify-between items-end mb-2">
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Progress Sesi {sessionId}</span>
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Progress Sesi {sessionId}</span>
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">{Math.round(progressPercentage)}%</span>
             </div>
             <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -541,7 +541,7 @@ export default function ExamSimulation({
                     ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 scale-110 z-10"
                     : answers[q.id] !== undefined
                     ? "bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700"
                 }`}
               >
                 {idx + 1}
@@ -552,7 +552,7 @@ export default function ExamSimulation({
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
           <div className="flex items-center justify-between px-2">
-             <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Mode Tampilan</span>
+             <span className="text-xs font-medium text-slate-600 dark:text-slate-400">Mode Tampilan</span>
              <button
               onClick={toggleDarkMode}
               className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
@@ -588,7 +588,7 @@ export default function ExamSimulation({
             <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
               <span className="font-bold text-white">{currentQuestionIndex + 1}</span>
             </div>
-            <span className="text-sm text-slate-500 dark:text-slate-400">dari {questions.length} soal</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400">dari {questions.length} soal</span>
           </div>
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-slate-600 dark:text-slate-300">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
