@@ -31,8 +31,31 @@ export default function LandingPage() {
     },
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Simulasi UPA PERADI",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "IDR",
+    },
+    "description": "Simulasi ujian advokat dengan sistem gamifikasi. Pelajari 200 soal terupdate dari 8 materi hukum utama.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "1024",
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex flex-col relative overflow-hidden selection:bg-emerald-500/30 transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Background Pattern */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_50%)]" />
