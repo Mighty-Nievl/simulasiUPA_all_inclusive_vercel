@@ -33,6 +33,11 @@ export default async function middleware(req: NextRequest) {
   // Handle App Subdomain (app.localhost or app.simupa.web.id)
   // -----------------------------------------------------------------------------
   if (isAppSubdomain) {
+    // 0. Redirect login/register to root domain
+    if (pathname === "/login" || pathname === "/daftar") {
+      return NextResponse.redirect(new URL(pathname, `https://${rootDomain}`));
+    }
+
     // 1. Root path -> rewrite to /dashboard
     if (pathname === "/") {
       return NextResponse.rewrite(new URL("/dashboard", req.url));
