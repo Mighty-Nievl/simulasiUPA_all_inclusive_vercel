@@ -4,7 +4,7 @@
 
 Aplikasi simulasi ujian interaktif yang dirancang untuk membantu calon advokat mempersiapkan diri menghadapi Ujian Profesi Advokat (UPA) PERADI. Dibangun dengan teknologi web modern untuk memberikan pengalaman belajar yang *engaging*, cepat, dan efektif.
 
-![Preview Aplikasi](https://simulasi-upa-final-nooq8oz98-nievls-projects.vercel.app/opengraph-image)
+![Preview Aplikasi](https://simulasi-upa-final-nooq8oz98-nievls-projects.vercel.app/opengraph-image.png)
 
 ## ✨ Fitur Utama
 
