@@ -47,13 +47,26 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda:
     pnpm install
     ```
 
-3. **Jalankan Development Server**
+3. **Konfigurasi Environment**
+    Buat file `.env.local` di root project dan tambahkan konfigurasi berikut untuk mengatur domain lokal vs produksi:
+
+    ```env
+    # Konfigurasi untuk Localhost
+    NEXT_PUBLIC_ROOT_DOMAIN=localhost:3000
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+    # Konfigurasi untuk Production (Vercel)
+    # NEXT_PUBLIC_ROOT_DOMAIN=simupa.web.id
+    # NEXT_PUBLIC_APP_URL=https://app.simupa.web.id
+    ```
+
+4. **Jalankan Development Server**
 
     ```bash
     pnpm dev
     ```
 
-4. **Buka di Browser**
+5. **Buka di Browser**
     Buka [http://localhost:3000](http://localhost:3000) untuk melihat aplikasi.
 
 ## 📂 Struktur Project
@@ -62,20 +75,23 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda:
 src/
 ├── app/                 # Next.js App Router pages
 │   ├── api/             # API Routes (Questions, Submit, Reset)
+│   ├── app/             # Application Subdomain Pages
 │   ├── globals.css      # Global styles & Tailwind directives
 │   ├── layout.tsx       # Root layout
-│   └── page.tsx         # Home page
+│   └── page.tsx         # Landing page
 ├── components/          # React components
 │   └── ExamSimulation.tsx # Core exam logic & UI
 ├── data/                # Static data
 │   └── questions.json   # Database soal (JSON format)
-└── lib/                 # Utility functions
-    └── progress.ts      # Logic progress & local storage
+├── lib/                 # Utility functions
+│   ├── config.ts        # App configuration & constants
+│   └── progress.ts      # Logic progress & local storage
+└── middleware.ts        # Domain routing middleware
 ```
 
 ## 📝 Lisensi
 
 Project ini dibuat untuk tujuan edukasi.
 
-**Developer**: Rezal Helvin Bramantara, S.H.
+**Developer**: [Mighty-Nievl](https://github.com/Mighty-Nievl)
 **Tahun**: 2025
