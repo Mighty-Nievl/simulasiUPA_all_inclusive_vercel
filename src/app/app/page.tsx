@@ -7,7 +7,7 @@ import {
   isSessionCompleted,
   resetProgress,
 } from "@/lib/progress";
-import { auth } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
 import { SITE_CONFIG } from "@/lib/config";
 import ExamSimulation from "@/components/ExamSimulation";
 
@@ -20,14 +20,19 @@ export default function Home() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [darkMode, setDarkMode] = useState(true); // Default to dark
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const supabase = createClient();
 
   useEffect(() => {
-    // Check authentication
-    if (!auth.isAuthenticated()) {
-      window.location.href = SITE_CONFIG.loginUrl;
-      return;
-    }
-    setIsCheckingAuth(false);
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = SITE_CONFIG.loginUrl;
+        return;
+      }
+      setIsCheckingAuth(false);
+    };
+    
+    checkAuth();
 
     const currentProgress = getProgress();
     setProgress(currentProgress);

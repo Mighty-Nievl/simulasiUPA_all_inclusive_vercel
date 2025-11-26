@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { SITE_CONFIG } from "@/lib/config";
-import { auth } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     // Check local storage or system preference
@@ -26,16 +29,24 @@ export default function LoginPage() {
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate login delay
-    setTimeout(() => {
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert(error.message);
       setIsLoading(false);
-      auth.login();
-      // Redirect to app
-      window.location.href = SITE_CONFIG.appUrl;
-    }, 1500);
+      return;
+    }
+
+    // Successful login
+    router.refresh();
+    window.location.href = SITE_CONFIG.appUrl;
   };
 
   return (

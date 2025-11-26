@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { SITE_CONFIG } from "@/lib/config";
-import { auth } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [darkMode, setDarkMode] = useState(true);
@@ -11,6 +12,8 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     // Check local storage or system preference
@@ -28,7 +31,7 @@ export default function RegisterPage() {
     }
   }, []);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Password tidak sama!");
@@ -36,13 +39,26 @@ export default function RegisterPage() {
     }
     
     setIsLoading(true);
-    // Simulate registration delay
-    setTimeout(() => {
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+        },
+      },
+    });
+
+    if (error) {
+      alert(error.message);
       setIsLoading(false);
-      auth.login();
-      // Redirect to app (or login)
-      window.location.href = SITE_CONFIG.appUrl;
-    }, 1500);
+      return;
+    }
+
+    // Successful registration
+    router.refresh();
+    window.location.href = SITE_CONFIG.appUrl;
   };
 
   return (

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
 
 export const config = {
   matcher: [
@@ -14,6 +15,14 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
+  // 1. Refresh Supabase session first
+  // This sets the cookies on the response
+  const response = await updateSession(req);
+  
+  // If updateSession returns a redirect or rewrite (it currently doesn't, just next()),
+  // we can continue. But we need to make sure we carry over the cookies set by Supabase
+  // to our final response.
+  
   const url = req.nextUrl;
   const hostname = req.headers.get("host")!;
 
@@ -74,5 +83,5 @@ export default async function middleware(req: NextRequest) {
 
   // If we are on the landing domain (or any other domain), serve the root content
   // which is now the Landing Page (src/app/page.tsx)
-  return NextResponse.next();
+  return response;
 }
