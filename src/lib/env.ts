@@ -1,23 +1,13 @@
 // Simple strict validation without Zod to avoid extra dependencies for now.
 // If the project grows, migrating to Zod or T3 Env is recommended.
 
-const requiredEnvVars = [
-  "NEXT_PUBLIC_ROOT_DOMAIN",
-  "NEXT_PUBLIC_APP_URL",
-  "NEXT_PUBLIC_SUPABASE_URL",
-  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-] as const;
-
-type EnvVar = (typeof requiredEnvVars)[number];
-
 function validateEnv() {
   const missingVars: string[] = [];
 
-  for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar]) {
-      missingVars.push(envVar);
-    }
-  }
+  if (!process.env.NEXT_PUBLIC_ROOT_DOMAIN) missingVars.push("NEXT_PUBLIC_ROOT_DOMAIN");
+  if (!process.env.NEXT_PUBLIC_APP_URL) missingVars.push("NEXT_PUBLIC_APP_URL");
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) missingVars.push("NEXT_PUBLIC_SUPABASE_URL");
+  if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) missingVars.push("NEXT_PUBLIC_SUPABASE_ANON_KEY");
 
   if (missingVars.length > 0) {
     console.warn(
