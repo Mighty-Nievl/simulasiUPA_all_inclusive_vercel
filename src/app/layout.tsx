@@ -6,7 +6,13 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://simupa.web.id"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL
+      ? (process.env.NEXT_PUBLIC_APP_URL.startsWith("http")
+        ? process.env.NEXT_PUBLIC_APP_URL
+        : `https://${process.env.NEXT_PUBLIC_APP_URL}`)
+      : "https://simupa.web.id"
+  ),
   title: {
     default: "Simulasi UPA - Latihan Ujian Profesi Advokat",
     template: "%s | Simulasi UPA",
