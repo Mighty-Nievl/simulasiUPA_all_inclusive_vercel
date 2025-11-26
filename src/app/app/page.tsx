@@ -78,8 +78,8 @@ export default function Home() {
   };
 
   const handleExitSession = () => {
-    setSelectedSession(null);
-    setProgress(getProgress());
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+    window.location.href = `${protocol}://${SITE_CONFIG.rootDomain}`;
   };
 
   const handleNextSession = () => {
