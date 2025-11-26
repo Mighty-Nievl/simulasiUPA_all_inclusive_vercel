@@ -19,7 +19,13 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(true); // Default to dark
 
   useEffect(() => {
-    setProgress(getProgress());
+    const currentProgress = getProgress();
+    setProgress(currentProgress);
+    
+    // Auto-start the current session
+    if (!selectedSession) {
+      setSelectedSession(currentProgress.currentSession);
+    }
     
     // Check local storage or system preference
     const savedMode = localStorage.getItem("darkMode");
