@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { env } from '@/lib/env'
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -7,8 +8,8 @@ export async function updateSession(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
@@ -24,10 +25,10 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, {
               ...options,
-              domain: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_ROOT_DOMAIN : undefined,
+              domain: env.NODE_ENV === 'production' ? env.NEXT_PUBLIC_ROOT_DOMAIN : undefined,
               path: '/',
               sameSite: 'lax',
-              secure: process.env.NODE_ENV === 'production',
+              secure: env.NODE_ENV === 'production',
             })
           )
         },
