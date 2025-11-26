@@ -249,7 +249,7 @@ export default function ExamSimulation({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 px-4 transition-colors duration-300">
+      <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 px-4 transition-colors duration-300">
         <div className="text-center max-w-md">
           {error ? (
             <>
@@ -273,13 +273,13 @@ export default function ExamSimulation({
             </div>
           )}
         </div>
-      </div>
+      </main>
     );
   }
 
   if (questions.length === 0) {
      return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 px-4 transition-colors duration-300">
+      <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 px-4 transition-colors duration-300">
         <div className="text-center max-w-md">
           <div className="mb-6 flex justify-center">
             <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-full">
@@ -299,7 +299,7 @@ export default function ExamSimulation({
             Kembali ke Menu
           </button>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -333,7 +333,7 @@ export default function ExamSimulation({
           </div>
         </header>
 
-        <div className="flex-1 flex items-center justify-center p-4 md:p-8 overflow-y-auto">
+        <main className="flex-1 flex items-center justify-center p-4 md:p-8 overflow-y-auto">
           <div className="w-full max-w-4xl">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -455,7 +455,7 @@ export default function ExamSimulation({
               )}
             </div>
           </div>
-        </div>
+        </main>
       </div>
     );
   }
@@ -581,7 +581,7 @@ export default function ExamSimulation({
       </motion.div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden relative">
+      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
         {/* Mobile Header */}
         <div className="md:hidden p-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-30">
           <div className="flex items-center gap-2">
@@ -712,7 +712,7 @@ export default function ExamSimulation({
             </button>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
