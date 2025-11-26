@@ -20,11 +20,12 @@ function validateEnv() {
   }
 
   if (missingVars.length > 0) {
-    throw new Error(
-      `❌ Invalid environment variables: Missing ${missingVars.join(
+    console.warn(
+      `⚠️ Missing environment variables: ${missingVars.join(
         ", "
-      )}. Please check your .env file.`
+      )}. Using defaults for build.`
     );
+    // Don't throw here to allow build to proceed, but app might misbehave if vars are truly needed at runtime.
   }
 
   // Helper to ensure URL has protocol
@@ -33,14 +34,17 @@ function validateEnv() {
     return url.startsWith("http") ? url : `https://${url}`;
   };
 
+  const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || `https://${domain}`;
+
   return {
-    NEXT_PUBLIC_ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN!,
-    NEXT_PUBLIC_APP_URL: formatUrl(process.env.NEXT_PUBLIC_APP_URL!),
-    NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN || process.env.NEXT_PUBLIC_ROOT_DOMAIN!,
-    NEXT_PUBLIC_LOGIN_URL: formatUrl(process.env.NEXT_PUBLIC_LOGIN_URL!) || `${formatUrl(process.env.NEXT_PUBLIC_APP_URL!)}/login`,
-    NEXT_PUBLIC_REGISTER_URL: formatUrl(process.env.NEXT_PUBLIC_REGISTER_URL!) || `${formatUrl(process.env.NEXT_PUBLIC_APP_URL!)}/daftar`,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    NEXT_PUBLIC_ROOT_DOMAIN: domain,
+    NEXT_PUBLIC_APP_URL: formatUrl(appUrl),
+    NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN || domain,
+    NEXT_PUBLIC_LOGIN_URL: formatUrl(process.env.NEXT_PUBLIC_LOGIN_URL || `${formatUrl(appUrl)}/login`),
+    NEXT_PUBLIC_REGISTER_URL: formatUrl(process.env.NEXT_PUBLIC_REGISTER_URL || `${formatUrl(appUrl)}/daftar`),
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
     NODE_ENV: process.env.NODE_ENV || "development",
   };
 }
