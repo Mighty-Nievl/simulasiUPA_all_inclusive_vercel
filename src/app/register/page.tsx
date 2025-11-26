@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { SITE_CONFIG } from "@/lib/config";
+import { auth } from "@/lib/auth";
 
 export default function RegisterPage() {
   const [darkMode, setDarkMode] = useState(true);
@@ -35,10 +36,10 @@ export default function RegisterPage() {
     }
     
     setIsLoading(true);
-    
     // Simulate registration delay
     setTimeout(() => {
       setIsLoading(false);
+      auth.login();
       // Redirect to app (or login)
       window.location.href = SITE_CONFIG.appUrl;
     }, 1500);

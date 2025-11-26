@@ -7,6 +7,8 @@ import {
   isSessionCompleted,
   resetProgress,
 } from "@/lib/progress";
+import { auth } from "@/lib/auth";
+import { SITE_CONFIG } from "@/lib/config";
 import ExamSimulation from "@/components/ExamSimulation";
 
 export default function Home() {
@@ -17,8 +19,16 @@ export default function Home() {
   }>({ completedSessions: [], currentSession: 1 });
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [darkMode, setDarkMode] = useState(true); // Default to dark
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    // Check authentication
+    if (!auth.isAuthenticated()) {
+      window.location.href = SITE_CONFIG.loginUrl;
+      return;
+    }
+    setIsCheckingAuth(false);
+
     const currentProgress = getProgress();
     setProgress(currentProgress);
     
@@ -76,6 +86,14 @@ export default function Home() {
     setShowResetConfirm(false);
     fetch("/api/reset", { method: "POST" });
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (selectedSession) {
     return (

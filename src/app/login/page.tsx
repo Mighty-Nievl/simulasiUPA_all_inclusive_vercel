@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { SITE_CONFIG } from "@/lib/config";
+import { auth } from "@/lib/auth";
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(true);
@@ -28,10 +29,10 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
     // Simulate login delay
     setTimeout(() => {
       setIsLoading(false);
+      auth.login();
       // Redirect to app
       window.location.href = SITE_CONFIG.appUrl;
     }, 1500);
