@@ -163,10 +163,10 @@ export default function Home() {
                </svg>
              </button>
              <button 
-               onClick={async () => {
-                 await supabase.auth.signOut();
-                 window.location.href = SITE_CONFIG.loginUrl;
-               }}
+                 onClick={async () => {
+                   await supabase.auth.signOut();
+                   window.location.href = `${window.location.protocol}//${SITE_CONFIG.rootDomain}`;
+                 }}
                className="p-2 text-slate-400 hover:text-red-500 transition-colors"
                title="Keluar"
              >
