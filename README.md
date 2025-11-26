@@ -12,21 +12,21 @@ Aplikasi simulasi ujian interaktif yang dirancang untuk membantu calon advokat m
 * **🎮 Gamification System**:
   * **Sesi Bertahap**: Materi dibagi menjadi 20 sesi (10 soal/sesi) agar tidak membosankan.
   * **Instant Feedback**: Penjelasan langsung muncul jika jawaban salah.
-  * **Progress Tracking**: Simpan progress belajar Anda secara otomatis.
+  * **Hybrid Sync (Offline-First)**: Progress tersimpan otomatis di LocalStorage (cepat) dan tersinkronisasi ke Database (aman) saat online.
   * **Celebration Effects**: Efek confetti saat berhasil menyelesaikan sesi dengan nilai sempurna.
 * **🎨 UI/UX Modern**:
-  * **Global Dark Mode**: Tampilan elegan yang nyaman di mata untuk belajar malam hari.
+  * **Global Dark Mode**: Tampilan elegan yang nyaman di mata, konsisten di seluruh halaman.
   * **Responsive Design**: Optimal di Desktop, Tablet, dan Mobile.
   * **Smooth Animations**: Transisi antar soal yang halus menggunakan `framer-motion`.
-* **⚡ Performa Tinggi**: Dibangun dengan Next.js 15 untuk loading super cepat.
+* **🔐 Secure Auth**: Login aman menggunakan Google OAuth & Email via Supabase.
 
 ## 🛠️ Teknologi yang Digunakan
 
 * **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
 * **Language**: [TypeScript](https://www.typescriptlang.org/)
+* **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
 * **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 * **Animations**: [Framer Motion](https://www.framer.com/motion/)
-* **Effects**: [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
 * **Deployment**: [Vercel](https://vercel.com/)
 
 ## 🚀 Cara Menjalankan Project
@@ -48,25 +48,28 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda:
     ```
 
 3. **Konfigurasi Environment**
-    Buat file `.env.local` di root project dan tambahkan konfigurasi berikut untuk mengatur domain lokal vs produksi:
+    Buat file `.env` di root project dan tambahkan konfigurasi berikut:
 
     ```env
-    # Konfigurasi untuk Localhost
+    # Domain Configuration
     NEXT_PUBLIC_ROOT_DOMAIN=localhost:3000
     NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-    # Konfigurasi untuk Production (Vercel)
-    # NEXT_PUBLIC_ROOT_DOMAIN=simupa.web.id
-    # NEXT_PUBLIC_APP_URL=https://app.simupa.web.id
+    # Supabase Configuration
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
     ```
 
-4. **Jalankan Development Server**
+4. **Setup Database (Supabase)**
+    Jalankan script SQL yang ada di file `supabase_schema.sql` pada SQL Editor di Dashboard Supabase Anda untuk membuat tabel `user_progress` dan mengaktifkan fitur sinkronisasi.
+
+5. **Jalankan Development Server**
 
     ```bash
     pnpm dev
     ```
 
-5. **Buka di Browser**
+6. **Buka di Browser**
     Buka [http://localhost:3000](http://localhost:3000) untuk melihat aplikasi.
 
 ## 📂 Struktur Project
@@ -74,18 +77,24 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda:
 ```
 src/
 ├── app/                 # Next.js App Router pages
-│   ├── api/             # API Routes (Questions, Submit, Reset)
-│   ├── app/             # Application Subdomain Pages
+│   ├── api/             # API Routes (Questions, Sync, Auth)
+│   ├── app/             # Application Subdomain Pages (Dashboard/Exam)
+│   ├── auth/            # Auth Callback Routes
+│   ├── daftar/          # Registration Page
+│   ├── login/           # Login Page
 │   ├── globals.css      # Global styles & Tailwind directives
-│   ├── layout.tsx       # Root layout
+│   ├── layout.tsx       # Root layout with ThemeProvider
 │   └── page.tsx         # Landing page
 ├── components/          # React components
-│   └── ExamSimulation.tsx # Core exam logic & UI
+│   ├── ExamSimulation.tsx # Core exam logic & UI
+│   └── ThemeProvider.tsx  # Global dark mode context
 ├── data/                # Static data
 │   └── questions.json   # Database soal (JSON format)
 ├── lib/                 # Utility functions
+│   ├── auth.ts          # Auth helpers (Cookies)
 │   ├── config.ts        # App configuration & constants
-│   └── progress.ts      # Logic progress & local storage
+│   ├── progress.ts      # Logic progress & sync
+│   └── supabase/        # Supabase clients (Client/Server/Middleware)
 └── middleware.ts        # Domain routing middleware
 ```
 
