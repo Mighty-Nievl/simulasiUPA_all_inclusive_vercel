@@ -5,6 +5,8 @@ import { SITE_CONFIG } from "@/lib/config";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 export default function LoginPage() {
 
   const [email, setEmail] = useState("");
@@ -98,6 +100,10 @@ export default function LoginPage() {
           </defs>
           <rect width="100%" height="100%" fill="url(#grid-pattern)" />
         </svg>
+      </div>
+
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
       </div>
 
       <div className="relative z-10 w-full max-w-md">

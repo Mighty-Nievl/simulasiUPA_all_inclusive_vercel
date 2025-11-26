@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SITE_CONFIG } from "@/lib/config";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import Link from "next/link";
 
 interface Question {
@@ -105,6 +106,7 @@ export default function HistoryDetailPage({ params }: { params: Promise<{ id: st
             </Link>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Detail Riwayat</h1>
           </div>
+          <ThemeToggle />
         </div>
       </header>
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SITE_CONFIG } from "@/lib/config";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import Link from "next/link";
 
 interface ExamResult {
@@ -76,6 +77,7 @@ export default function HistoryPage() {
             </Link>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Riwayat Ujian</h1>
           </div>
+          <ThemeToggle />
         </div>
       </header>
 

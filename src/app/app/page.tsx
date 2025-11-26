@@ -8,6 +8,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { SITE_CONFIG } from "@/lib/config";
 import ExamSimulation from "@/components/ExamSimulation";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import Link from "next/link";
 
 export default function Home() {
@@ -133,6 +134,7 @@ export default function Home() {
                 <p className="text-sm font-bold text-slate-900 dark:text-white">{user.user_metadata?.full_name || user.email}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Peserta Ujian</p>
              </div>
+             <ThemeToggle />
              <button 
                onClick={async () => {
                  await supabase.auth.signOut();
