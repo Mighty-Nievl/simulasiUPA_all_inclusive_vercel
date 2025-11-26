@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const [darkMode, setDarkMode] = useState(true);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,21 +16,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  useEffect(() => {
-    // Check local storage or system preference
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) {
-      setDarkMode(savedMode === "true");
-      if (savedMode === "true") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
+
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,38 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+
 import { SITE_CONFIG } from "@/lib/config";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function LandingPage() {
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    // Check local storage or system preference
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) {
-      setDarkMode(savedMode === "true");
-      if (savedMode === "true") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      // Default to dark mode
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem("darkMode", String(newDarkMode));
-    if (newDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  };
+  const { darkMode, toggleDarkMode } = useTheme();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex flex-col relative overflow-hidden selection:bg-emerald-500/30 transition-colors duration-300">

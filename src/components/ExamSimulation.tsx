@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SITE_CONFIG } from "@/lib/config";
+import { useTheme } from "@/components/ThemeProvider";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -28,8 +29,6 @@ interface ExamSimulationProps {
   sessionId: number;
   onExit: () => void;
   onNextSession: () => void;
-  darkMode: boolean;
-  toggleDarkMode: () => void;
   user?: any;
 }
 
@@ -37,10 +36,9 @@ export default function ExamSimulation({
   sessionId,
   onExit,
   onNextSession,
-  darkMode,
-  toggleDarkMode,
   user,
 }: ExamSimulationProps) {
+  const { darkMode, toggleDarkMode } = useTheme();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

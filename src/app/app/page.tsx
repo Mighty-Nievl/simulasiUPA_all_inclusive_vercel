@@ -18,7 +18,7 @@ export default function Home() {
     currentSession: number;
   }>({ completedSessions: [], currentSession: 1 });
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [darkMode, setDarkMode] = useState(true); // Default to dark
+
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [user, setUser] = useState<any>(null);
 
@@ -44,33 +44,9 @@ export default function Home() {
     if (!selectedSession) {
       setSelectedSession(currentProgress.currentSession);
     }
-    
-    // Check local storage or system preference
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) {
-      setDarkMode(savedMode === "true");
-      if (savedMode === "true") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      // Default to dark mode for this app style
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
   }, []);
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem("darkMode", String(newDarkMode));
-    if (newDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  };
+
 
   const handleStartExam = () => {
     setSelectedSession(1);
@@ -110,8 +86,7 @@ export default function Home() {
         sessionId={selectedSession}
         onExit={handleExitSession}
         onNextSession={handleNextSession}
-        darkMode={darkMode}
-        toggleDarkMode={toggleDarkMode}
+
         user={user}
       />
     );
