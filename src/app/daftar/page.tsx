@@ -11,6 +11,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
@@ -33,8 +34,10 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
     if (password !== confirmPassword) {
-      alert("Password tidak sama!");
+      setError("Password tidak sama!");
       return;
     }
     
@@ -51,7 +54,7 @@ export default function RegisterPage() {
     });
 
     if (error) {
-      alert(error.message);
+      setError(error.message);
       setIsLoading(false);
       return;
     }
@@ -114,6 +117,14 @@ export default function RegisterPage() {
           </div>
 
           <form onSubmit={handleRegister} className="space-y-4">
+            {error && (
+              <div className="p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-start gap-3 animate-fadeIn">
+                <svg className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-red-600 dark:text-red-400 font-medium">{error}</p>
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Nama Lengkap

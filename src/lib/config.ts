@@ -1,9 +1,12 @@
+const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
+const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
 export const SITE_CONFIG = {
   // Domain config
-  rootDomain: process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id",
-  appUrl: process.env.NEXT_PUBLIC_APP_URL || "https://app.simupa.web.id",
-  loginUrl: `${process.env.NEXT_PUBLIC_ROOT_DOMAIN ? `http://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` : "https://simupa.web.id"}/login`,
-  registerUrl: `${process.env.NEXT_PUBLIC_ROOT_DOMAIN ? `http://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` : "https://simupa.web.id"}/daftar`,
+  rootDomain,
+  appUrl: process.env.NEXT_PUBLIC_APP_URL || `${protocol}://app.${rootDomain}`,
+  loginUrl: process.env.NEXT_PUBLIC_LOGIN_URL || `${protocol}://${rootDomain}/login`,
+  registerUrl: process.env.NEXT_PUBLIC_REGISTER_URL || `${protocol}://${rootDomain}/daftar`,
   
   // Other potential config items
   name: "Simulasi UPA PERADI",

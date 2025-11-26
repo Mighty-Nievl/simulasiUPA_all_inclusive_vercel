@@ -9,6 +9,7 @@ export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
@@ -27,19 +28,56 @@ export default function LoginPage() {
       setDarkMode(true);
       document.documentElement.classList.add("dark");
     }
+
+    // Check if user is already logged in
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        window.location.href = SITE_CONFIG.appUrl;
+      }
+    };
+    checkAuth();
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
+
+    // 1. Check if user exists via our custom API
+    try {
+      const checkRes = await fetch("/api/auth/check-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      
+      const checkData = await checkRes.json();
+      
+      if (checkData.error) {
+        // If API fails (e.g. key missing), fall back to standard login
+        console.warn("User check failed:", checkData.error);
+      } else if (checkData.exists === false) {
+        setError("Email belum terdaftar. Silakan daftar akun baru.");
+        setIsLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.warn("User check error:", err);
+    }
     
+    // 2. If user exists (or check failed), try to login
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      alert(error.message);
+      if (error.message === "Invalid login credentials") {
+        setError("Password salah.");
+      } else {
+        setError(error.message);
+      }
       setIsLoading(false);
       return;
     }
@@ -102,6 +140,14 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
+            {error && (
+              <div className="p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-start gap-3 animate-fadeIn">
+                <svg className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-red-600 dark:text-red-400 font-medium">{error}</p>
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Email

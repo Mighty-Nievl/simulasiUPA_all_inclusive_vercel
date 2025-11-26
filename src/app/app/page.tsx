@@ -20,15 +20,19 @@ export default function Home() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [darkMode, setDarkMode] = useState(true); // Default to dark
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [user, setUser] = useState<any>(null);
+
   const supabase = createClient();
 
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        window.location.href = SITE_CONFIG.loginUrl;
+        // Redirect to relative login path so it stays on the same domain (important for app.localhost)
+        window.location.href = "/login";
         return;
       }
+      setUser(user);
       setIsCheckingAuth(false);
     };
     
@@ -109,6 +113,7 @@ export default function Home() {
         onNextSession={handleNextSession}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
+        user={user}
       />
     );
   }
