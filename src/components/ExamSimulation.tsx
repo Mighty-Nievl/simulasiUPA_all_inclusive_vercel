@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SITE_CONFIG } from "@/lib/config";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -512,7 +513,7 @@ export default function ExamSimulation({
             onClick={async () => {
               const supabase = createClient();
               await supabase.auth.signOut();
-              window.location.href = "/login";
+              window.location.href = `${window.location.protocol}//${SITE_CONFIG.rootDomain}`;
             }}
             className="mt-2 w-full py-2 px-3 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
           >
