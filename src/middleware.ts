@@ -23,8 +23,24 @@ export default async function middleware(req: NextRequest) {
   const pathname = url.pathname;
 
   // Define domains
-  const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || `app.${rootDomain}`;
+  // Define domains
+  let rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "";
+  // Remove protocol if present in rootDomain (just in case user added http://)
+  rootDomain = rootDomain.replace(/^https?:\/\//, '');
+
+  let appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN;
+  if (!appDomain && process.env.NEXT_PUBLIC_APP_URL) {
+    try {
+      const tempUrl = new URL(process.env.NEXT_PUBLIC_APP_URL.startsWith('http') ? process.env.NEXT_PUBLIC_APP_URL : `https://${process.env.NEXT_PUBLIC_APP_URL}`);
+      appDomain = tempUrl.hostname;
+    } catch (e) {
+      // ignore invalid url
+    }
+  }
+  if (!appDomain) {
+    appDomain = `app.${rootDomain}`;
+  }
+
   const isAppSubdomain = hostname === appDomain || hostname.startsWith("app.");
 
   // -----------------------------------------------------------------------------

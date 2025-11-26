@@ -2,15 +2,14 @@ import Cookies from "js-cookie";
 
 const AUTH_COOKIE_NAME = "upa_auth_token";
 
+import { SITE_CONFIG } from "./config";
+
 export const auth = {
   login: () => {
     // Set cookie that is accessible across subdomains
-    // For localhost, we just use 'localhost'
-    // For production, we use '.simupa.web.id'
-    const hostname = window.location.hostname;
-    const domain = hostname.includes("localhost") 
+    const domain = process.env.NODE_ENV === "development" 
       ? "localhost" 
-      : "." + hostname.split(".").slice(-2).join(".");
+      : "." + SITE_CONFIG.rootDomain;
 
     Cookies.set(AUTH_COOKIE_NAME, "true", { 
       expires: 7, // 7 days
@@ -20,10 +19,9 @@ export const auth = {
   },
 
   logout: () => {
-    const hostname = window.location.hostname;
-    const domain = hostname.includes("localhost") 
+    const domain = process.env.NODE_ENV === "development" 
       ? "localhost" 
-      : "." + hostname.split(".").slice(-2).join(".");
+      : "." + SITE_CONFIG.rootDomain;
 
     Cookies.remove(AUTH_COOKIE_NAME, { domain: domain, path: "/" });
   },

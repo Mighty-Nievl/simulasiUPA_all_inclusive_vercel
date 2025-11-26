@@ -1,4 +1,4 @@
-const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
+const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "";
 const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
 export const SITE_CONFIG = {
