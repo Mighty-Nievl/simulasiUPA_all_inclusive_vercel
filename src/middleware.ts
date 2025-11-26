@@ -23,10 +23,13 @@ export default async function middleware(req: NextRequest) {
   const pathname = url.pathname;
 
   // Define domains
+  // Define domains
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || rootDomain;
+  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || `app.${rootDomain}`;
 
-  const isAppSubdomain = hostname === appDomain || hostname.startsWith("app.");
+  // Check if hostname is the app subdomain
+  // We strictly check if it matches appDomain OR starts with "app." AND is not the root domain
+  const isAppSubdomain = hostname === appDomain || (hostname.startsWith("app.") && hostname !== rootDomain);
 
   // -----------------------------------------------------------------------------
   // Handle App Subdomain (app.localhost or app.simupa.web.id)
