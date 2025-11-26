@@ -85,7 +85,7 @@ export default function LandingPage() {
             ].map((stat, i) => (
               <div key={i}>
                 <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{stat.label}</div>
+                <div className="text-sm text-slate-400 font-medium uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -133,7 +133,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/10 text-center text-slate-500 text-sm">
+      <footer className="py-12 border-t border-white/10 text-center text-slate-400 text-sm">
         <p>&copy; 2025 Simulasi UPA PERADI. All rights reserved.</p>
       </footer>
     </div>
