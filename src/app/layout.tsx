@@ -34,9 +34,6 @@ export const metadata: Metadata = {
     title: "Simulasi UPA - Latihan Ujian Profesi Advokat",
     description: "Siap hadapi Ujian Profesi Advokat dengan simulasi gamifikasi premium.",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({
