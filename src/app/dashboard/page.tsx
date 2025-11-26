@@ -137,6 +137,33 @@ export default function Home() {
              <ThemeToggle />
              <button 
                onClick={async () => {
+                 if (confirm("Apakah Anda yakin ingin mereset semua progress? Data yang dihapus tidak dapat dikembalikan.")) {
+                   try {
+                     // 1. Reset server side
+                     const res = await fetch('/api/progress/reset', { method: 'POST' });
+                     if (!res.ok) throw new Error('Failed to reset server progress');
+                     
+                     // 2. Reset client side
+                     const { resetProgress } = await import("@/lib/progress");
+                     resetProgress();
+                     
+                     // 3. Reload
+                     window.location.reload();
+                   } catch (error) {
+                     console.error("Reset failed:", error);
+                     alert("Gagal mereset progress. Silakan coba lagi.");
+                   }
+                 }
+               }}
+               className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+               title="Reset Progress"
+             >
+               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+               </svg>
+             </button>
+             <button 
+               onClick={async () => {
                  await supabase.auth.signOut();
                  window.location.href = SITE_CONFIG.loginUrl;
                }}
