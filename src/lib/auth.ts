@@ -7,9 +7,8 @@ import { SITE_CONFIG } from "./config";
 export const auth = {
   login: () => {
     // Set cookie that is accessible across subdomains
-    const domain = process.env.NODE_ENV === "development" 
-      ? "localhost" 
-      : "." + SITE_CONFIG.rootDomain;
+    const isLocalhost = SITE_CONFIG.rootDomain.includes("localhost");
+    const domain = isLocalhost ? "localhost" : "." + SITE_CONFIG.rootDomain;
 
     Cookies.set(AUTH_COOKIE_NAME, "true", { 
       expires: 7, // 7 days
@@ -19,9 +18,8 @@ export const auth = {
   },
 
   logout: () => {
-    const domain = process.env.NODE_ENV === "development" 
-      ? "localhost" 
-      : "." + SITE_CONFIG.rootDomain;
+    const isLocalhost = SITE_CONFIG.rootDomain.includes("localhost");
+    const domain = isLocalhost ? "localhost" : "." + SITE_CONFIG.rootDomain;
 
     Cookies.remove(AUTH_COOKIE_NAME, { domain: domain, path: "/" });
   },
