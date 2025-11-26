@@ -21,12 +21,6 @@ export default function Home() {
   useEffect(() => {
     setProgress(getProgress());
     
-    // Check for auto-start query param
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get("start") === "1") {
-      setSelectedSession(1);
-    }
-    
     // Check local storage or system preference
     const savedMode = localStorage.getItem("darkMode");
     if (savedMode !== null) {

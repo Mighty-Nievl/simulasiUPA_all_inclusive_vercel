@@ -131,10 +131,10 @@ export default function LandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://app.simupa.web.id?start=1"
-                className="group relative inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white dark:text-slate-900 font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)]"
+                href="https://app.simupa.web.id"
+                className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white dark:text-slate-900 font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2"
               >
-                <span className="relative z-10">Mulai Ujian Sekarang</span>
+                <span className="relative z-10">Masuk ke Aplikasi</span>
                 <svg
                   className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"
