@@ -28,8 +28,7 @@ export default function Home() {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        // Redirect to relative login path so it stays on the same domain (important for app.localhost)
-        window.location.href = "/login";
+        window.location.href = SITE_CONFIG.loginUrl;
         return;
       }
       setUser(user);
