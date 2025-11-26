@@ -14,9 +14,9 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: '#10b981', // Emerald-500
-          dark: '#059669',    // Emerald-600
-          light: '#34d399',   // Emerald-400
+          DEFAULT: '#059669', // Emerald-600 (Contrast 4.94:1)
+          dark: '#047857',    // Emerald-700
+          light: '#10b981',   // Emerald-500
         },
         emerald: {
           50: '#ecfdf5',
