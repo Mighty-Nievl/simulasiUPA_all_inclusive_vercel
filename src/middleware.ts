@@ -22,9 +22,14 @@ export default async function middleware(req: NextRequest) {
   const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || "app.simupa.web.id";
   // const landingDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "simupa.web.id";
 
+  const loginDomain = process.env.NEXT_PUBLIC_LOGIN_DOMAIN || "login.simupa.web.id";
+  const registerDomain = process.env.NEXT_PUBLIC_REGISTER_DOMAIN || "daftar.simupa.web.id";
+
   // Check if we are on the app subdomain
   // Also handle localhost for testing: app.localhost:3000
   const isAppSubdomain = hostname === appDomain || hostname.startsWith("app.");
+  const isLoginSubdomain = hostname === loginDomain || hostname.startsWith("login.");
+  const isRegisterSubdomain = hostname === registerDomain || hostname.startsWith("daftar.");
 
   if (isAppSubdomain) {
     // Rewrite to the /app folder
@@ -51,6 +56,20 @@ export default async function middleware(req: NextRequest) {
     // If there are other routes inside /app/app/..., they would be /app/...
     // So we rewrite /path to /app/path
     return NextResponse.rewrite(new URL(`/app${url.pathname}`, req.url));
+  }
+
+  if (isLoginSubdomain) {
+    if (url.pathname === "/") {
+      return NextResponse.rewrite(new URL("/login", req.url));
+    }
+    return NextResponse.rewrite(new URL(`/login${url.pathname}`, req.url));
+  }
+
+  if (isRegisterSubdomain) {
+    if (url.pathname === "/") {
+      return NextResponse.rewrite(new URL("/register", req.url));
+    }
+    return NextResponse.rewrite(new URL(`/register${url.pathname}`, req.url));
   }
 
   // If we are on the landing domain (or any other domain), serve the root content
