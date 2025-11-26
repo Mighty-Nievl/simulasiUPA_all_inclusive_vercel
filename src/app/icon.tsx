@@ -34,13 +34,15 @@ export default function Icon() {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="3"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <path d="M12 3v18m-9-6l9-6 9 6" />
-          <path d="M5 15a4 4 0 0 0 8 0" />
-          <path d="M11 15a4 4 0 0 0 8 0" />
+          <path d="M12 3v17" />
+          <path d="M5 6h14" />
+          <path d="M5 6l-2 8a3 3 0 0 0 6 0l-2-8" />
+          <path d="M19 6l-2 8a3 3 0 0 0 6 0l-2-8" />
+          <path d="M9 21h6" />
         </svg>
       </div>
     ),
