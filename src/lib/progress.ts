@@ -84,6 +84,9 @@ export function saveProgress(sessionId: number, correctQuestionIds: number[] = [
   progress.lastUpdated = new Date().toISOString();
 
   localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  
+  // Trigger background sync
+  syncProgressWithDB();
 }
 
 /**
@@ -173,4 +176,34 @@ export function isSessionUnlocked(sessionId: number): boolean {
 export function isSessionCompleted(sessionId: number): boolean {
   const progress = getProgress();
   return progress.completedSessions.includes(sessionId);
+}
+/**
+ * Sync progress with database (Hybrid approach)
+ */
+export async function syncProgressWithDB(): Promise<void> {
+  if (typeof window === 'undefined') return;
+
+  const localProgress = getProgress();
+
+  try {
+    const response = await fetch('/api/progress/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(localProgress),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      // If server has newer data, update local
+      if (data.action === 'update_local' && data.progress) {
+        localStorage.setItem(PROGRESS_KEY, JSON.stringify(data.progress));
+        // Dispatch event to notify components
+        window.dispatchEvent(new Event('storage'));
+      }
+    }
+  } catch (error) {
+    console.error('Failed to sync progress:', error);
+    // Silent fail - offline mode will persist local data
+  }
 }

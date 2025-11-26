@@ -6,6 +6,7 @@ import {
   isSessionUnlocked,
   isSessionCompleted,
   resetProgress,
+  syncProgressWithDB,
 } from "@/lib/progress";
 import { createClient } from "@/lib/supabase/client";
 import { SITE_CONFIG } from "@/lib/config";
@@ -33,6 +34,9 @@ export default function Home() {
       }
       setUser(user);
       setIsCheckingAuth(false);
+      
+      // Sync progress with DB
+      syncProgressWithDB();
     };
     
     checkAuth();
@@ -44,6 +48,18 @@ export default function Home() {
     if (!selectedSession) {
       setSelectedSession(currentProgress.currentSession);
     }
+
+    // Listen for storage updates (from sync)
+    const handleStorageChange = () => {
+      const updatedProgress = getProgress();
+      setProgress(updatedProgress);
+      if (!selectedSession) {
+        setSelectedSession(updatedProgress.currentSession);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
 
