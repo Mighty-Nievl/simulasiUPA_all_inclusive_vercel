@@ -47,9 +47,9 @@ export default async function middleware(req: NextRequest) {
   // Handle App Subdomain (app.localhost or app.simupa.web.id)
   // -----------------------------------------------------------------------------
   if (isAppSubdomain) {
-    // 1. Root path -> rewrite to /app
+    // 1. Root path -> rewrite to /dashboard
     if (pathname === "/") {
-      return NextResponse.rewrite(new URL("/app", req.url));
+      return NextResponse.rewrite(new URL("/dashboard", req.url));
     }
 
     // 2. Special files to ignore
@@ -57,13 +57,13 @@ export default async function middleware(req: NextRequest) {
       return NextResponse.next();
     }
     
-    // 3. Prevent recursive rewriting if path already starts with /app
-    if (pathname.startsWith("/app")) {
+    // 3. Prevent recursive rewriting if path already starts with /dashboard
+    if (pathname.startsWith("/dashboard")) {
       return NextResponse.next();
     }
     
-    // 4. Default: Rewrite everything else to /app/...
-    return NextResponse.rewrite(new URL(`/app${pathname}`, req.url));
+    // 4. Default: Rewrite everything else to /dashboard/...
+    return NextResponse.rewrite(new URL(`/dashboard${pathname}`, req.url));
   }
 
   // -----------------------------------------------------------------------------

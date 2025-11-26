@@ -59,8 +59,11 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
+    let savedToHistory = false;
+    let saveError = null;
+
     if (user) {
-      await supabase.from('exam_results').insert({
+      const { error } = await supabase.from('exam_results').insert({
         user_id: user.id,
         session_id: sessionId,
         score: score,
@@ -69,6 +72,15 @@ export async function POST(request: NextRequest) {
         incorrect_answers: totalQuestions - correctCount,
         answers: answers
       });
+
+      if (error) {
+        console.error("Failed to save exam result:", error);
+        saveError = error.message;
+      } else {
+        savedToHistory = true;
+      }
+    } else {
+      console.warn("User not authenticated, skipping history save");
     }
 
     return NextResponse.json({
@@ -77,15 +89,17 @@ export async function POST(request: NextRequest) {
       totalQuestions,
       percentage: score,
       results,
+      savedToHistory,
+      saveError,
       message: passed
         ? `Sempurna! Anda menjawab semua soal dengan benar. Sesi ${sessionId + 1} telah terbuka!`
         : `Anda menjawab ${correctCount} dari ${totalQuestions} soal dengan benar. Harus 100% untuk melanjutkan.`
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Submit error:", error);
     return NextResponse.json(
-      { error: 'Invalid request body' },
-      { status: 400 }
+      { error: error.message || 'An unexpected error occurred' },
+      { status: 500 }
     );
   }
 }
